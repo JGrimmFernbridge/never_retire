@@ -34,7 +34,7 @@ export const script = {
       { t: 'Wait…what?!', by: 'J', big: true, accent: true },
     ]},
     { type: 'say', lines: [
-      { t: 'That was my daughter’s response. Two words, delivered with the particular incredulity that only a child can manage when an adult has said something that doesn’t compute.', by: 'J' },
+      { t: 'That was my daughter’s response — a very common phrase of hers. It is a statement that acts as a pause in order to give time to catch up and process what was said. “Never retire” needs that pause.', by: 'J' },
       { t: 'You may have had something like it yourself. Never retire? That sounds less like financial advice and more like a threat.', by: 'J' },
       { t: 'I understand. It sounded that way to me for a while, too. Give me a few pages before you decide.', by: 'J' },
     ]},
