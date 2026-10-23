@@ -222,3 +222,55 @@ export function ThreeCircles({ pr }) {
     </figure>
   );
 }
+
+// ── The five Social Determinants of Health (HHS / Healthy People 2030) ───────
+export const SDOH = [
+  { key: 'p_econ',   name: 'Economic stability',               short: 'Economic\nstability',   def: 'Steady income and the ability to afford housing, food and health care. Poverty, job loss and debt all sit here.' },
+  { key: 'p_learn',  name: 'Education access and quality',     short: 'Education',             def: 'Access to good schooling and the chance to keep learning across a life — strongly tied to income and to health later on.' },
+  { key: 'p_care',   name: 'Health care access and quality',   short: 'Health care',           def: 'Coverage, a doctor you can actually reach, and care that is timely and competent — including care when you can no longer care for yourself.' },
+  { key: 'p_place',  name: 'Neighborhood and built environment', short: 'Neighborhood',        def: 'Safe housing, clean air and water, transportation, and places to gather and move — the physical world you live in.' },
+  { key: 'p_people', name: 'Social and community context',     short: 'Social &\ncommunity',   def: 'Relationships, belonging, civic life and support — the people who know your name. Two of the five are really community by another name.' },
+];
+export function SdohWheel({ answers = {}, live = false }) {
+  const [sel, setSel] = useState(null);
+  const n = 5, cx = 180, cy = 150, R = 112, r = 48;
+  const maxes = { p_econ: 3, p_learn: 2, p_care: 3, p_place: 2, p_people: 3 };
+  const seg = (i, inner, outer) => {
+    const a0 = (i / n) * Math.PI * 2 - Math.PI / 2 + 0.035, a1 = ((i + 1) / n) * Math.PI * 2 - Math.PI / 2 - 0.035;
+    const p = (rad, a) => `${(cx + rad * Math.cos(a)).toFixed(1)},${(cy + rad * Math.sin(a)).toFixed(1)}`;
+    return `M${p(inner, a0)} A${inner},${inner} 0 0 1 ${p(inner, a1)} L${p(outer, a1)} A${outer},${outer} 0 0 0 ${p(outer, a0)} Z`;
+  };
+  const d = sel !== null ? SDOH[sel] : null;
+  return (
+    <figure className="viz sdoh">
+      <figcaption>{live ? 'The five, from what you told me.' : 'The five Social Determinants of Health. Tap one.'}</figcaption>
+      <svg viewBox="0 0 360 300" role="img" aria-label="Five social determinants of health arranged around health">
+        {SDOH.map((s, i) => {
+          const v = answers[s.key]; const f = live && v !== undefined ? v / maxes[s.key] : 0;
+          const mid = (i + 0.5) / n * Math.PI * 2 - Math.PI / 2;
+          const lx = cx + (R + 22) * Math.cos(mid), ly = cy + (R + 18) * Math.sin(mid);
+          const lines = s.short.split('\n');
+          return (
+            <g key={s.key} className={'sd' + (sel === i ? ' sel' : '')} onClick={() => setSel(sel === i ? null : i)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSel(sel === i ? null : i)}>
+              <path d={seg(i, r, R)} className="sdbg" />
+              {live && <path d={seg(i, r, r + (R - r) * f)} className="sdfill" />}
+              <text x={lx} y={ly - (lines.length - 1) * 6} textAnchor="middle" dominantBaseline="middle" className="sdlbl">
+                {lines.map((t, k) => <tspan key={k} x={lx} dy={k ? 12 : 0}>{t}</tspan>)}
+              </text>
+            </g>
+          );
+        })}
+        <circle cx={cx} cy={cy} r={r - 6} className="hub" />
+        <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" className="hubt">health</text>
+      </svg>
+      {d ? (
+        <p className="vizline c" key={sel}><b>{d.name}.</b> {d.def}</p>
+      ) : (
+        <p className="vizline c">{live
+          ? 'Public health research has found these conditions shape health more than genetics or medical care does. The same is true of your economic life.'
+          : 'Where we’re born, grow, work, live and age — and the wider forces shaping daily life. The U.S. Department of Health and Human Services names five.'}</p>
+      )}
+      <small className="vizsrc">U.S. HHS, Healthy People 2030 · WHO Commission on Social Determinants of Health</small>
+    </figure>
+  );
+}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stations, script, audit, links } from './content.js';
 import { household, peopleScore, shocks, principles, fmt } from './sim.js';
-import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles } from './visuals.jsx';
+import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles, SdohWheel } from './visuals.jsx';
 
 // Flatten the script into one ordered list of steps, remembering the station.
 const steps = stations.flatMap((s) => script[s.id].map((step) => ({ ...step, station: s.id })));
@@ -154,6 +154,8 @@ function Visual({ id, answers, h }) {
     case 'bubble': return <Bubble />;
     case 'twoPeople': return <TwoPeople />;
     case 'riskBars': return <RiskBars />;
+    case 'sdohIntro': return <SdohWheel />;
+    case 'sdohLive': return <SdohWheel answers={answers} live />;
     case 'pendulums': return <Pendulums />;
     case 'circleIntro': return <MagicCircle fill={{}} answered={new Set()} caption="Seven rings. We’ll fill them as you answer." />;
     case 'circleLive': return <MagicCircle fill={ringFill(answers, h)} answered={answered} />;

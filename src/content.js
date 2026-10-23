@@ -78,8 +78,8 @@ export const script = {
       { t: 'If you want to know what produces economic stability, it turns out you shouldn’t ask a financial advisor. You should ask a public health researcher.', by: 'J' },
       { t: 'The Social Determinants of Health are the five things that predict how a human life goes: economic stability, access to and quality of health care, the built environment, access to and quality of education, and social and community context.', by: 'J' },
       { t: 'Notice what’s on that list, and notice what isn’t. Your asset allocation isn’t there. Neither is your expense ratio.', by: 'J' },
-      { t: 'Public health research has found these conditions shape health more than genetics or access to medical care does.', by: 'C', src: { label: 'CDC, Social Determinants of Health', url: 'https://www.cdc.gov/about/sdoh/index.html' } },
     ]},
+    { type: 'visual', id: 'sdohIntro' },
     { type: 'say', lines: [
       { t: 'So let’s walk the five — not as a worksheet, but as how you’re actually living this week.', by: 'C' },
     ]},
@@ -206,6 +206,10 @@ export const script = {
       ],
     }},
 
+    { type: 'say', lines: [
+      { t: 'Here are the five again — yours this time. In most cases, each of these has been eroded or is obsolete in the current model we have for retirement.', by: 'J~' },
+    ]},
+    { type: 'visual', id: 'sdohLive' },
     { type: 'say', lines: [
       { t: 'Why does the system produce isolation even when it works? Not the accounts — the direction. We live under an economic philosophy that has set wealth, the individual, and consumption as the direction of travel.', by: 'J~' },
     ]},
