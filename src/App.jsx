@@ -217,7 +217,7 @@ function Shocks({ h, people, answers }) {
       {result && !out && <p className="line c">{result.solo}</p>}
       {out && (
         <div className="result" key={open}>
-          <p className="hit"><b>{out.hit}</b> {out.hitLabel}</p>
+          <p className="hitline"><b>{out.hit}</b> {out.hitLabel}</p>
           <div className="ledgers">
             <div className="ledger">
               <h3>Products ledger</h3>

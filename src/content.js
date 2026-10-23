@@ -364,6 +364,6 @@ export const links = {
   book: { label: 'The Future Poor', url: 'https://thefuturepoor.com' },
   substack: { label: 'The Financial Ethicist on Substack', url: 'https://thefuturepoor.substack.com' },
   fernbridge: { label: 'Talk with Fernbridge Advisors', url: 'https://fernbridge.us' },
-  course: { label: 'Natural Order Economics course', url: 'https://naturalordereconomics.netlify.app' },
+  course: { label: 'Natural Order Economics course', url: 'https://economics.thefuturepoor.com' },
   story: { label: 'The Story of Retirement', url: 'https://thefuturepoor.com' },
 };

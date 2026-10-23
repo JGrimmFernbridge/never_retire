@@ -90,8 +90,8 @@ section { margin: 0 0 26px; }
 .shock.on span { color: rgba(255,255,255,.7); }
 .hint { font-size: 13px; color: var(--mute); margin: 14px 0 0; text-align: center; }
 .result { margin-top: 18px; animation: in .4s ease both; }
-.hit { font-family: var(--serif); font-size: 15px; margin: 0 0 12px; color: var(--mute); }
-.hit b { font-size: 30px; color: var(--ochre); font-weight: 600; margin-right: 6px; letter-spacing: -.01em; }
+.hitline { font-family: var(--serif); font-size: 15px; margin: 0 0 12px; color: var(--mute); }
+.hitline b { font-size: 30px; color: var(--ochre); font-weight: 600; margin-right: 6px; letter-spacing: -.01em; }
 .ledgers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .ledger { background: var(--pearl); border-radius: 8px; padding: 14px; }
 .ledger h3 { margin: 0 0 10px; font-family: var(--serif); font-weight: 600; font-size: 15px; }
@@ -250,7 +250,8 @@ td { padding: 6px; border-bottom: 1px solid var(--line); }
 .vizline b { font-family: var(--sans); font-weight: 600; }
 
 .grid100 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 300px; margin: 4px auto 12px; }
-.grid100 i { aspect-ratio: 1; border-radius: 3px; background: var(--pearl); transition: background .3s; }
+.grid100 { align-items: start; }
+.grid100 i { aspect-ratio: 1; display: block; margin: 0; border-radius: 3px; background: var(--pearl); transition: background .3s; }
 .grid100 i.hit { background: var(--ochre); }
 .bigstat { font-family: var(--serif); font-size: 15.5px; margin: 0; line-height: 1.45; }
 .bigstat b { font-size: 34px; font-weight: 600; color: var(--ochre); margin-right: 6px; line-height: 1; }
