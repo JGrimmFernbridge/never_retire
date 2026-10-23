@@ -38,7 +38,7 @@ export function TwoPeople() {
 // ── The retirement bubble, 1950–2040 (Chapter 4) ─────────────────────────────
 export function Bubble() {
   const [t, setT] = useState(2025);
-  const W = 560, H = 220, x0 = 40, x1 = 540, y0 = 190, y1 = 30;
+  const W = 560, H = 230, x0 = 40, x1 = 540, y0 = 200, y1 = 40;
   const X = (yr) => x0 + ((yr - 1950) / 90) * (x1 - x0);
   // cost of retirement: rises steadily, then steeply. value: rises to 1980 then declines.
   const cost = (yr) => { const p = (yr - 1950) / 90; return y0 - (y0 - y1) * Math.pow(p, 1.8); };
@@ -53,8 +53,8 @@ export function Bubble() {
         {[1950, 1980, 2010, 2040].map((yr) => <text key={yr} x={X(yr)} y={y0 + 18} className="tick" textAnchor="middle">{yr}</text>)}
         <path d={path(value)} className="value" />
         <path d={path(cost)} className="cost" />
-        <text x={X(1953)} y={value(1953) - 8} className="lbl value">what retirement is worth to people</text>
-        <text x={X(2016)} y={cost(2016) - 10} className="lbl cost" textAnchor="end">what it costs</text>
+        <text x={X(1980)} y={value(1980) - 10} className="lbl value" textAnchor="middle">what retirement is worth to people</text>
+        <text x={X(2024)} y={cost(2024) - 12} className="lbl cost" textAnchor="end">what it costs</text>
         <line x1={X(t)} y1={y1 - 10} x2={X(t)} y2={y0} className="cursor" />
         <circle cx={X(t)} cy={cost(t)} r="5" className="dotc" />
         <circle cx={X(t)} cy={value(t)} r="5" className="dotv" />

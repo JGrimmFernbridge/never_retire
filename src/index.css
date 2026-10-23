@@ -184,7 +184,7 @@ td { padding: 6px; border-bottom: 1px solid var(--line); }
 .bubble .tick { font-size: 11px; fill: var(--mute); }
 .bubble path.value { fill: none; stroke: var(--slate); stroke-width: 2.5; }
 .bubble path.cost { fill: none; stroke: var(--ochre); stroke-width: 3; }
-.bubble .lbl { font-size: 11px; } .bubble .lbl.value { fill: var(--slate); } .bubble .lbl.cost { fill: var(--ochre); }
+.bubble .lbl { font-size: 11.5px; font-weight: 600; } .bubble .lbl.value { fill: var(--slate); } .bubble .lbl.cost { fill: var(--ochre); }
 .bubble .cursor { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; opacity: .6; }
 .bubble .dotc { fill: var(--ochre); } .bubble .dotv { fill: var(--slate); }
 .bubble .yr { font-family: var(--serif); font-size: 15px; font-weight: 600; fill: var(--ink); }
