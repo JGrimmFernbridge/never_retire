@@ -172,7 +172,7 @@ export function SplitTest() {
         <button role="tab" aria-selected={four} className={four ? 'on' : ''} onClick={() => setFour(true)}>$800 into four</button>
       </div>
       <div className="jars">
-        {['Growth', 'Capital', 'Guaranteed', 'Medical'].map((j, i) => (
+        {['Growth', 'Capital', 'Income', 'Medical'].map((j, i) => (
           <div className="jar" key={j}>
             <div className="glass"><i style={{ height: four ? '55%' : i === 0 ? '100%' : '0%' }} /></div>
             <span>{j}</span>
