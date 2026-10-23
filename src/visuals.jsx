@@ -1,0 +1,224 @@
+import { useEffect, useState } from 'react';
+
+// ── Two people, one moment (Chapter 4) ───────────────────────────────────────
+const moments = {
+  1890: {
+    sixty: 'Grew up agrarian. Work wasn’t a phase of life — it was life. Has never once thought about retiring.',
+    twenty: 'Stepping into industrialization at full force. The first generation for whom work becomes a place you go — and who will eventually be told they must leave it.',
+  },
+  1985: {
+    sixty: 'Five years out and knows precisely what he’s getting, because someone put it in writing when he was hired. Cashing in a promise from a different era.',
+    twenty: 'Handed a brochure about investment options and told this is better — more freedom, more control. Nobody explains that the shift from defined benefit to defined contribution is a transfer of risk.',
+  },
+  2025: {
+    sixty: 'Generation X. Too young for pensions, too old to fully recover from 2008 and 2020, too honest to pretend the numbers work. Trying to exit a system that no longer functions.',
+    twenty: 'Born into a post-2008 world where the crisis isn’t a memory but architecture. Retirement is a historical curiosity — something their grandparents did. Never entered the system at all.',
+  },
+};
+export function TwoPeople() {
+  const [year, setYear] = useState(1890);
+  const m = moments[year];
+  return (
+    <figure className="viz twopeople">
+      <figcaption>Pick any year. Picture two people in it: one is 60, one is 20.</figcaption>
+      <div className="years" role="tablist">
+        {[1890, 1985, 2025].map((y) => (
+          <button key={y} role="tab" aria-selected={year === y} className={year === y ? 'on' : ''} onClick={() => setYear(y)}>{y}</button>
+        ))}
+      </div>
+      <div className="pair" key={year}>
+        <div className="person"><b>60</b><p>{m.sixty}</p></div>
+        <div className="person"><b>20</b><p>{m.twenty}</p></div>
+      </div>
+      <p className="vizline j">The irony of our moment is that the 60-year-old is trying to exit a system that no longer functions, and the 20-year-old never entered it at all.</p>
+    </figure>
+  );
+}
+
+// ── The retirement bubble, 1950–2040 (Chapter 4) ─────────────────────────────
+export function Bubble() {
+  const [t, setT] = useState(2025);
+  const W = 560, H = 220, x0 = 40, x1 = 540, y0 = 190, y1 = 30;
+  const X = (yr) => x0 + ((yr - 1950) / 90) * (x1 - x0);
+  // cost of retirement: rises steadily, then steeply. value: rises to 1980 then declines.
+  const cost = (yr) => { const p = (yr - 1950) / 90; return y0 - (y0 - y1) * Math.pow(p, 1.8); };
+  const value = (yr) => { const p = (yr - 1950) / 90; const peak = 0.33; const v = p < peak ? p / peak : 1 - ((p - peak) / (1 - peak)) * 0.85; return y0 - (y0 - y1) * v * 0.72; };
+  const path = (f) => Array.from({ length: 46 }, (_, i) => 1950 + i * 2).map((yr, i) => `${i ? 'L' : 'M'}${X(yr).toFixed(1)},${f(yr).toFixed(1)}`).join(' ');
+  const cross = 1980;
+  return (
+    <figure className="viz bubble">
+      <figcaption>The bubble: 1950 to 2040. Drag the year.</figcaption>
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Cost of retirement rising past its value after about 1980">
+        <line x1={x0} y1={y0} x2={x1} y2={y0} className="axis" />
+        {[1950, 1980, 2010, 2040].map((yr) => <text key={yr} x={X(yr)} y={y0 + 18} className="tick" textAnchor="middle">{yr}</text>)}
+        <path d={path(value)} className="value" />
+        <path d={path(cost)} className="cost" />
+        <text x={X(1953)} y={value(1953) - 8} className="lbl value">what retirement is worth to people</text>
+        <text x={X(2016)} y={cost(2016) - 10} className="lbl cost" textAnchor="end">what it costs</text>
+        <line x1={X(t)} y1={y1 - 10} x2={X(t)} y2={y0} className="cursor" />
+        <circle cx={X(t)} cy={cost(t)} r="5" className="dotc" />
+        <circle cx={X(t)} cy={value(t)} r="5" className="dotv" />
+        <text x={X(t)} y={y1 - 14} textAnchor="middle" className="yr">{t}</text>
+      </svg>
+      <input type="range" min="1950" max="2040" value={t} onChange={(e) => setT(+e.target.value)} aria-label="Year" />
+      <p className="vizline c">
+        {t < cross ? 'Displacement. Retirement becomes a genuinely new thing — possible only with government support and a specific set of conditions all in place at once.'
+          : t < 2008 ? 'The cost has crossed above the value. One of the signs of a bubble is that the value of a thing begins to fall below what it costs.'
+          : t < 2030 ? 'Where we are. The cost of retirement has become astronomical, while its actual social and economic value has been declining since about 1980.'
+          : 'A long inflation period generally means the correction is severe rather than gentle. When I teach this I draw the bubbles as dinosaurs, so people remember that dinosaurs went extinct.'}
+      </p>
+    </figure>
+  );
+}
+
+// ── The three pendulums (Chapter 6) ──────────────────────────────────────────
+const pend = [
+  { left: 'Wealth', mid: 'Not poverty', right: 'Poverty', leftNote: 'consumes others', rightNote: 'consumes you' },
+  { left: 'Individualism', mid: 'Community', right: 'Forced', leftNote: 'on your own', rightNote: 'obligation, guilt, shame' },
+  { left: 'Consumer', mid: 'Generativity', right: 'Consumed', leftNote: 'uses things up', rightNote: 'gets used up' },
+];
+export function Pendulums() {
+  const [pos, setPos] = useState([-1, -1, -1]); // -1 left, 0 center, 1 right
+  const [touched, setTouched] = useState(false);
+  const all = pos.every((p) => p === 0);
+  return (
+    <figure className="viz pendulums">
+      <figcaption>Three pendulums. Each has two ways to fall off. Tap a bob to swing it.</figcaption>
+      {pend.map((p, i) => {
+        const x = 50 + pos[i] * 38; // percent
+        return (
+          <div className="pend" key={p.mid}>
+            <div className="labels"><span className={pos[i] === -1 ? 'hot' : ''}>{p.left}</span><b className={pos[i] === 0 ? 'hot' : ''}>{p.mid}</b><span className={pos[i] === 1 ? 'hot' : ''}>{p.right}</span></div>
+            <div className="arc">
+              <button className="bob" style={{ left: `${x}%` }} aria-label={`${p.mid} pendulum, currently ${pos[i] === 0 ? 'centered' : pos[i] < 0 ? p.left : p.right}`}
+                onClick={() => { setTouched(true); setPos((s) => s.map((v, j) => j === i ? (v === -1 ? 0 : v === 0 ? 1 : -1) : v)); }} />
+            </div>
+            <small>{pos[i] === -1 ? p.leftNote : pos[i] === 1 ? p.rightNote : 'the natural order'}</small>
+          </div>
+        );
+      })}
+      <p className="vizline j">{all ? 'The middle isn’t a compromise between them. It’s a different thing entirely.' : touched ? 'Both extremes consume. One end consumes others; the other end consumes you.' : 'We spend nearly all our attention warning about one end and almost none on the other.'}</p>
+    </figure>
+  );
+}
+
+// ── Risk bars (Surgeon General) ──────────────────────────────────────────────
+export function RiskBars() {
+  const rows = [['Heart disease', 29], ['Stroke', 32], ['Dementia (older adults)', 50], ['Premature death', 60]];
+  const [go, setGo] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setGo(true), 150); return () => clearTimeout(t); }, []);
+  return (
+    <figure className="viz riskbars">
+      <figcaption>Added risk from social disconnection</figcaption>
+      {rows.map(([n, v]) => (
+        <div className="rb" key={n}><span>{n}</span><div className="rbrail"><i style={{ width: go ? `${v}%` : 0 }} /></div><b>+{v}%</b></div>
+      ))}
+      <small>U.S. Surgeon General advisory, 2023. The mortality effect is compared to smoking up to 15 cigarettes a day.</small>
+    </figure>
+  );
+}
+
+// ── Magic Circle, filling as they answer (Chapter 11) ────────────────────────
+export const RINGS = ['Income', 'Capital', 'Tax-free', 'Guaranteed', 'Medical', 'Growth', 'Legacy'];
+export function ringFill(a, h) {
+  return {
+    Income: h.floorPct >= 0.7 ? 1 : h.floorPct >= 0.5 ? 0.6 : h.floorPct > 0 ? 0.3 : 0,
+    Guaranteed: h.floorPct >= 0.7 ? 1 : h.floorPct >= 0.5 ? 0.6 : h.floorPct > 0 ? 0.3 : 0,
+    Capital: (a.capital ?? -1) >= 5 ? 1 : a.capital >= 2 ? 0.6 : a.capital === 0 ? 0.15 : 0,
+    Growth: h.growth >= 500000 ? 1 : h.growth >= 250000 ? 0.7 : h.growth > 0 ? 0.4 : 0,
+    Medical: (a.medical ?? 0) / 2,
+    'Tax-free': (a.taxfree ?? 0) / 2,
+    Legacy: a.survivor !== undefined ? a.survivor / 2 : h.couple ? 0 : 0.5,
+  };
+}
+export function MagicCircle({ fill, answered, caption }) {
+  const R = 120, cx = 150, cy = 150, n = RINGS.length;
+  const seg = (i, inner, outer) => {
+    const a0 = (i / n) * Math.PI * 2 - Math.PI / 2 + 0.03, a1 = ((i + 1) / n) * Math.PI * 2 - Math.PI / 2 - 0.03;
+    const p = (r, a) => `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+    return `M${p(inner, a0)} A${inner},${inner} 0 0 1 ${p(inner, a1)} L${p(outer, a1)} A${outer},${outer} 0 0 0 ${p(outer, a0)} Z`;
+  };
+  return (
+    <figure className="viz circle">
+      {caption && <figcaption>{caption}</figcaption>}
+      <svg viewBox="0 0 300 300" role="img" aria-label="Magic Circle: seven rings">
+        {RINGS.map((r, i) => {
+          const f = fill[r] ?? 0;
+          const asked = answered.has(r);
+          return (
+            <g key={r}>
+              <path d={seg(i, 58, R)} className="ringbg" />
+              <path d={seg(i, 58, 58 + (R - 58) * f)} className={'ringfill' + (asked ? '' : ' unknown')} />
+              <text x={cx + (R + 16) * Math.cos((i + 0.5) / n * Math.PI * 2 - Math.PI / 2)} y={cy + (R + 16) * Math.sin((i + 0.5) / n * Math.PI * 2 - Math.PI / 2)} textAnchor="middle" dominantBaseline="middle" className={'ringlbl' + (asked ? ' on' : '')}>{r}</text>
+            </g>
+          );
+        })}
+        <circle cx={cx} cy={cy} r="46" className="hub" />
+        <text x={cx} y={cy - 4} textAnchor="middle" className="hubt">a life</text>
+        <text x={cx} y={cy + 14} textAnchor="middle" className="hubs">seven jobs</text>
+      </svg>
+    </figure>
+  );
+}
+
+// ── $1,000 into one vs $800 into four (Chapter 11) ───────────────────────────
+export function SplitTest() {
+  const [four, setFour] = useState(false);
+  return (
+    <figure className="viz split">
+      <figcaption>Same household. Two ways to fund a month.</figcaption>
+      <div className="toggle" role="tablist">
+        <button role="tab" aria-selected={!four} className={!four ? 'on' : ''} onClick={() => setFour(false)}>$1,000 into one</button>
+        <button role="tab" aria-selected={four} className={four ? 'on' : ''} onClick={() => setFour(true)}>$800 into four</button>
+      </div>
+      <div className="jars">
+        {['Growth', 'Capital', 'Guaranteed', 'Medical'].map((j, i) => (
+          <div className="jar" key={j}>
+            <div className="glass"><i style={{ height: four ? '55%' : i === 0 ? '100%' : '0%' }} /></div>
+            <span>{j}</span>
+          </div>
+        ))}
+      </div>
+      <p className="vizline j">{four
+        ? 'On a statement it looks like less. In a life, four jobs are getting done — and a bad year in one of them isn’t a bad year for all of them.'
+        : 'The industry will tell you this looks better. On a statement, it does. One job done brilliantly; three left to chance.'}</p>
+    </figure>
+  );
+}
+
+// ── Moneyball (Chapter 11) ───────────────────────────────────────────────────
+export function Moneyball() {
+  const [go, setGo] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setGo(true), 150); return () => clearTimeout(t); }, []);
+  return (
+    <figure className="viz moneyball">
+      <figcaption>2002. Same 103 wins.</figcaption>
+      <div className="mb">
+        <div className="team"><span>New York Yankees</span><div className="mbrail"><i style={{ width: go ? '100%' : 0 }} /></div><b>$125M payroll · ~$1.2M per win</b></div>
+        <div className="team"><span>Oakland A’s</span><div className="mbrail"><i className="as" style={{ width: go ? '32%' : 0 }} /></div><b>$40M payroll · ~$388K per win</b></div>
+      </div>
+      <p className="vizline j">They didn’t manage it by finding a cheaper superstar. They managed it by asking a different question. You can’t win baseball games — or your financial life — without a variety of players, because what you’re really buying is hits.</p>
+    </figure>
+  );
+}
+
+// ── Three circles, the sweet spot (the principles) ───────────────────────────
+export function ThreeCircles({ pr }) {
+  const s = { strong: 1, forming: 0.6, thin: 0.25 };
+  const c = [
+    { k: 'notPoverty', n: 'Not poverty', q: 'what', cx: 110, cy: 95 },
+    { k: 'community', n: 'Community', q: 'who', cx: 190, cy: 95 },
+    { k: 'generativity', n: 'Generativity', q: 'how', cx: 150, cy: 165 },
+  ];
+  const all = c.every((x) => pr[x.k] === 'strong');
+  return (
+    <figure className="viz three">
+      <svg viewBox="0 0 300 260" role="img" aria-label="Three overlapping circles: not poverty, community, generativity">
+        {c.map((x) => <circle key={x.k} cx={x.cx} cy={x.cy} r="70" className={'pc ' + pr[x.k]} style={{ opacity: 0.25 + s[pr[x.k]] * 0.45 }} />)}
+        {c.map((x) => <text key={x.k + 't'} x={x.cx + (x.cx - 150) * 0.9} y={x.cy + (x.cy - 118) * 0.95} textAnchor="middle" className="pct">{x.n}<tspan x={x.cx + (x.cx - 150) * 0.9} dy="14" className="pcq">the {x.q} · {pr[x.k]}</tspan></text>)}
+        <text x="150" y="125" textAnchor="middle" dominantBaseline="middle" className={'x' + (all ? ' lit' : '')}>✕</text>
+      </svg>
+      <p className="vizline j">{all ? 'The X at the centre is the sweet spot where they are all working at once.' : 'The X at the centre is the sweet spot where they are all working at once. The dimmer circles are where the building is.'}</p>
+    </figure>
+  );
+}

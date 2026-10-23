@@ -41,6 +41,7 @@ export const script = {
     { type: 'say', lines: [
       { t: 'This is not a book that tells you to work until you die. Rest is good. Rest is necessary. Questioning retirement is not the same as questioning rest. It’s questioning a model — one specific, historically contingent, 130-year-old model that was never designed for what we’re now asking it to do.', by: 'J' },
     ]},
+    { type: 'visual', id: 'bubble' },
     { type: 'say', lines: [
       { t: 'So instead of a calculator, this is a conversation. About ten minutes. I’ll ask how you’re living and planning right now — the people in your life and the products in your plan — and then we’ll see what holds when life does what life does.', by: 'C' },
       { t: 'Nothing you answer is saved or sent anywhere. It stays on this screen.', by: 'C', small: true },
@@ -51,6 +52,7 @@ export const script = {
       { value: '50_64', label: '50 to 64' },
       { value: '65p', label: '65 or better' },
     ]},
+    { type: 'visual', id: 'twoPeople' },
     { type: 'ask', id: 'household', q: { t: 'And who’s in the household?', by: 'C' }, options: [
       { value: 'solo', label: 'Just me' },
       { value: 'couple', label: 'Me and a partner' },
@@ -101,7 +103,10 @@ export const script = {
       ],
     }},
     { type: 'say', lines: [
-      { t: 'The U.S. Surgeon General put numbers on what disconnection does to a body: a 29% higher risk of heart disease, 32% higher risk of stroke, and about 50% higher risk of dementia for older adults. The mortality effect is compared to smoking up to 15 cigarettes a day.', by: 'C', src: { label: 'U.S. Surgeon General, Our Epidemic of Loneliness and Isolation (2023)', url: 'https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf' } },
+      { t: 'The U.S. Surgeon General put numbers on what disconnection does to a body.', by: 'C', src: { label: 'U.S. Surgeon General, Our Epidemic of Loneliness and Isolation (2023)', url: 'https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf' } },
+    ]},
+    { type: 'visual', id: 'riskBars' },
+    { type: 'say', lines: [
       { t: 'Which is why, in our own practice, we ask about this before we ask about accounts.', by: 'J' },
     ]},
 
@@ -202,6 +207,10 @@ export const script = {
     }},
 
     { type: 'say', lines: [
+      { t: 'Why does the system produce isolation even when it works? Not the accounts — the direction. We live under an economic philosophy that has set wealth, the individual, and consumption as the direction of travel.', by: 'J~' },
+    ]},
+    { type: 'visual', id: 'pendulums' },
+    { type: 'say', lines: [
       { t: 'One more thing about the people side, because it’s where the stakes actually live.', by: 'C' },
       { t: 'Depression is not a normal part of aging. Yet men 75 and older have the highest suicide rate of any group in the country — about 44 deaths per 100,000 in 2022, roughly double the rate for young men.', by: 'C', src: { label: 'CDC / NCHS Data Brief 509 (2024)', url: 'https://www.cdc.gov/nchs/products/databriefs/db509.htm' } },
       { t: 'One British study that followed people into retirement found it raised the probability of clinical depression by about 40% over the medium and long term, with the effect growing the longer retirement lasted.', by: 'C', src: { label: 'Sahlgren, Work Longer, Live Healthier (IEA, 2013)', url: 'https://iea.org.uk/publications/research/work-longer-live-healthier-the-relationship-between-economic-activity-health-and-government-policy' } },
@@ -217,6 +226,7 @@ export const script = {
       { t: 'There is no financial superstar. Every strength brings along its own weakness. You can’t paint a wall with a hammer — not because the hammer is bad, but because it’s the wrong tool for that particular job.', by: 'J' },
       { t: 'There are seven jobs money has to do across a life: Income, Capital, Tax-free, Guarantees, Medical, Growth, Legacy. Every financial tool does some of these and not others. And every tool that doesn’t fill a ring is telling you something by its absence.', by: 'J' },
     ]},
+    { type: 'visual', id: 'circleIntro' },
     { type: 'ask', id: 'need', q: { t: 'Roughly what does your household need each month to live — housing, food, the real number?', by: 'C' }, options: [
       { value: 3500, label: 'Around $3,500' },
       { value: 5500, label: 'Around $5,500' },
@@ -276,6 +286,10 @@ export const script = {
         { t: 'A client comes in with $500,000 in a 401(k). The 4% rule says $20,000 a year. He tells me he needs three times that just to live paycheck to paycheck. It isn’t a problem with the safe withdrawal rate. It’s a problem where the outcome he needs and the strategies we have simply do not meet.', by: 'J' },
       ],
     }},
+    { type: 'say', lines: [
+      { t: 'There is no financial superstar. Jason Giambi could hit — one of fifty-eight players in history with 400 home runs — and was, by most accounts, the worst defensive first baseman in baseball. The market is a marvel when it’s up. You would not want nine Giambis on the field playing defense.', by: 'J' },
+    ]},
+    { type: 'visual', id: 'moneyball' },
 
     { type: 'ask', id: 'medical', ring: 'Medical',
       q: { t: 'If you needed years of care, is there a tool that pays for it — long-term care coverage, a hybrid policy, a dedicated fund?', by: 'C' },
@@ -319,8 +333,13 @@ export const script = {
         { value: 2, label: 'A meaningful share' },
       ]},
     { type: 'say', lines: [
-      { t: 'Because here’s the question the whole thing comes down to. $1,000 a month into one area, or $800 a month into four? The industry will tell you the first looks better. On a statement, it does. In a life, I’ve come to think it doesn’t.', by: 'J' },
+      { t: 'Because here’s the question the whole thing comes down to.', by: 'J' },
     ]},
+    { type: 'visual', id: 'split' },
+    { type: 'say', lines: [
+      { t: 'Here’s your circle, from what you’ve told me. Every empty ring is information, not a verdict.', by: 'C' },
+    ]},
+    { type: 'visual', id: 'circleLive' },
   ],
 
   // ── STATION 3: SHOCKS ──────────────────────────────────────────────────────

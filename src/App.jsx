@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stations, script, audit, links } from './content.js';
 import { household, peopleScore, shocks, principles, fmt } from './sim.js';
+import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles } from './visuals.jsx';
 
 // Flatten the script into one ordered list of steps, remembering the station.
 const steps = stations.flatMap((s) => script[s.id].map((step) => ({ ...step, station: s.id })));
@@ -126,6 +127,8 @@ function Step({ step, answers, isCurrent, onAnswer, onContinue, h, people }) {
     }
     case 'ask':
       return <Ask step={step} value={answers[step.id]} onAnswer={onAnswer} />;
+    case 'visual':
+      return <Visual id={step.id} answers={answers} h={h} />;
     case 'shocks':
       return <Shocks h={h} people={people} answers={answers} />;
     case 'summary':
@@ -136,6 +139,27 @@ function Step({ step, answers, isCurrent, onAnswer, onContinue, h, people }) {
       return <Next />;
     default:
       return null;
+  }
+}
+
+function Visual({ id, answers, h }) {
+  const answered = new Set();
+  if (answers.floor !== undefined) { answered.add('Income'); answered.add('Guaranteed'); }
+  if (answers.capital !== undefined) answered.add('Capital');
+  if (answers.growth !== undefined) answered.add('Growth');
+  if (answers.medical !== undefined) answered.add('Medical');
+  if (answers.taxfree !== undefined) answered.add('Tax-free');
+  if (answers.survivor !== undefined || !h.couple) answered.add('Legacy');
+  switch (id) {
+    case 'bubble': return <Bubble />;
+    case 'twoPeople': return <TwoPeople />;
+    case 'riskBars': return <RiskBars />;
+    case 'pendulums': return <Pendulums />;
+    case 'circleIntro': return <MagicCircle fill={{}} answered={new Set()} caption="Seven rings. We’ll fill them as you answer." />;
+    case 'circleLive': return <MagicCircle fill={ringFill(answers, h)} answered={answered} />;
+    case 'moneyball': return <Moneyball />;
+    case 'split': return <SplitTest />;
+    default: return null;
   }
 }
 
@@ -240,15 +264,6 @@ function Summary({ answers, h, people }) {
     ['Neighborhood and built environment', answers.p_place, 2],
     ['Education', answers.p_learn, 2],
   ];
-  const rings = [
-    ['Income + Guaranteed', h.floorPct >= 0.7 ? 2 : h.floorPct >= 0.5 ? 1 : 0],
-    ['Capital', (answers.capital ?? 0) >= 5 ? 2 : (answers.capital ?? 0) >= 2 ? 1 : 0],
-    ['Growth', h.growth >= 250000 ? 2 : h.growth > 0 ? 1 : 0],
-    ['Medical', answers.medical ?? 0],
-    ['Tax-free', answers.taxfree ?? 0],
-    ['Legacy', answers.survivor ?? (h.couple ? 0 : 1)],
-  ];
-  const word = { strong: 'strong', forming: 'forming', thin: 'thin' };
   return (
     <section className="summary">
       <h2>How you’re living, and how you’re planning</h2>
@@ -261,18 +276,10 @@ function Summary({ answers, h, people }) {
         </div>
         <div>
           <h3>Products</h3>
-          <ul className="meter">
-            {rings.map(([n, v]) => <li key={n}><span>{n}</span><Pips v={v} m={2} /></li>)}
-          </ul>
+          <MagicCircle fill={ringFill(answers, h)} answered={new Set(RINGS)} />
         </div>
       </div>
-      <div className="three">
-        {[['Not poverty', pr.notPoverty, 'a floor stable enough that you remain a participant'],
-          ['Community', pr.community, 'voluntary, invitational, people who are genuinely needed'],
-          ['Generativity', pr.generativity, 'still contributing — production, creativity, work, generational']].map(([n, s, d]) => (
-          <div key={n} className={'principle ' + s}><b>{n}</b><em>{word[s]}</em><span>{d}</span></div>
-        ))}
-      </div>
+      <ThreeCircles pr={pr} />
     </section>
   );
 }
