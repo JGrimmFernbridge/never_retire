@@ -143,12 +143,12 @@ export const script = {
     { type: 'reflect', on: 'p_econ', lines: {
       low: [
         { t: 'It isn’t your fault. Roughly 17% of your financial life is within your control. The rest is tariffs and egg prices and gas prices and housing markets. We’ve built an entire moral framework around the 17% and named the whole thing personal responsibility.', by: 'J' },
-        { t: 'About 37% of U.S. adults could not cover a $400 surprise from cash, and 30% could not cover three months of expenses by any means.', by: 'C', src: { label: 'Federal Reserve, Economic Well-Being of U.S. Households in 2024', url: 'https://www.federalreserve.gov/publications/2025-economic-well-being-of-us-households-in-2024-executive-summary.htm' } },
       ],
       high: [
         { t: 'That floor is the first principle at work. “Not poverty” is a floor rather than a target. And a floor turns out to be a completely different kind of thing to build.', by: 'J' },
       ],
     }},
+    { type: 'visual', id: 'hundred' },
     { type: 'say', lines: [
       { t: 'Conventional plans assume people stop working when they decide to. In reality many leave sooner than planned: a layoff, skills the market no longer wants, a health event, a family member who needs care. A plan that depends on a voluntary, on-time departure is planning for the exception.', by: 'J~' },
     ]},

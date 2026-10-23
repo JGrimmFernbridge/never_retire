@@ -274,3 +274,25 @@ export function SdohWheel({ answers = {}, live = false }) {
     </figure>
   );
 }
+
+// ── 100 people, a $400 surprise (Federal Reserve SHED 2024) ─────────────────
+export function Hundred() {
+  const [mode, setMode] = useState(400);
+  const [go, setGo] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setGo(true), 120); return () => clearTimeout(t); }, []);
+  const k = mode === 400 ? 37 : 30;
+  return (
+    <figure className="viz hundred">
+      <figcaption>One hundred American adults.</figcaption>
+      <div className="toggle" role="tablist">
+        <button role="tab" aria-selected={mode === 400} className={mode === 400 ? 'on' : ''} onClick={() => setMode(400)}>A $400 surprise</button>
+        <button role="tab" aria-selected={mode === 3} className={mode === 3 ? 'on' : ''} onClick={() => setMode(3)}>Three months without income</button>
+      </div>
+      <div className="grid100" aria-label={`${k} of 100 people highlighted`}>
+        {Array.from({ length: 100 }, (_, i) => <i key={i} className={go && i < k ? 'hit' : ''} style={{ transitionDelay: `${(i % 10) * 25 + Math.floor(i / 10) * 15}ms` }} />)}
+      </div>
+      <p className="bigstat"><b>{k}</b>{mode === 400 ? ' couldn’t pay it from cash, savings or a card they pay off.' : ' couldn’t cover three months of expenses by any means.'}</p>
+      <small className="vizsrc">Federal Reserve, Economic Well-Being of U.S. Households in 2024 (May 2025).</small>
+    </figure>
+  );
+}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stations, script, audit, links } from './content.js';
 import { household, peopleScore, shocks, principles, fmt } from './sim.js';
-import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles, SdohWheel } from './visuals.jsx';
+import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles, SdohWheel, Hundred } from './visuals.jsx';
 
 // Flatten the script into one ordered list of steps, remembering the station.
 const steps = stations.flatMap((s) => script[s.id].map((step) => ({ ...step, station: s.id })));
@@ -154,6 +154,7 @@ function Visual({ id, answers, h }) {
     case 'bubble': return <Bubble />;
     case 'twoPeople': return <TwoPeople />;
     case 'riskBars': return <RiskBars />;
+    case 'hundred': return <Hundred />;
     case 'sdohIntro': return <SdohWheel />;
     case 'sdohLive': return <SdohWheel answers={answers} live />;
     case 'pendulums': return <Pendulums />;
