@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stations, script, audit, links } from './content.js';
 import { household, peopleScore, shocks, principles, fmt } from './sim.js';
-import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles, SdohWheel, Hundred } from './visuals.jsx';
+import { TwoPeople, Bubble, Pendulums, RiskBars, MagicCircle, RINGS, ringFill, SplitTest, Moneyball, ThreeCircles, SdohWheel, Hundred, NoSwitch, PurposeBars, Exits, AgeBars, Domains } from './visuals.jsx';
 
 // Flatten the script into one ordered list of steps, remembering the station.
 const steps = stations.flatMap((s) => script[s.id].map((step) => ({ ...step, station: s.id })));
@@ -41,28 +41,27 @@ export default function App() {
   useEffect(() => {
     const s = steps[cursor];
     if (!s?.auto) return;
-    const t = setTimeout(() => setCursor((c) => (c === cursor ? c + 1 : c)), s.auto);
+    const t = setTimeout(() => setCursor((c) => (c === cursor ? nextFrom(c) : c)), s.auto);
     return () => clearTimeout(t);
   }, [cursor]);
 
-  // Advance past reflect/skipped steps automatically
-  function advance(from = cursor) {
+  // Pass-through steps render but never wait for a click: reflections, attached text, skipped asks
+  function nextFrom(from, a = answers) {
     let next = from + 1;
     while (next < steps.length) {
       const s = steps[next];
-      if (s.skipIf && s.skipIf(answers)) { next++; continue; }
+      if (s.skipIf && s.skipIf(a)) { next++; continue; }
+      if (s.type === 'reflect' || s.type === 'sayx') { next++; continue; }
       break;
     }
-    setCursor(Math.min(next, steps.length - 1));
+    return Math.min(next, steps.length - 1);
   }
+  function advance(from = cursor) { setCursor(nextFrom(from)); }
 
   function answer(step, value) {
     const a = { ...answers, [step.id]: value };
     setAnswers(a);
-    // move to the next step; reflect steps render with the answer in hand
-    let next = step.index + 1;
-    while (next < steps.length && steps[next].skipIf && steps[next].skipIf(a)) next++;
-    setCursor(Math.min(next, steps.length - 1));
+    setCursor(nextFrom(step.index, a));
   }
 
   const h = household(answers);
@@ -118,6 +117,7 @@ function Line({ l }) {
 function Step({ step, answers, isCurrent, onAnswer, onContinue, h, people }) {
   switch (step.type) {
     case 'say':
+    case 'sayx':
       return <section className="say">{step.lines.map((l, i) => <Line key={i} l={l} />)}</section>;
     case 'reflect': {
       const v = answers[step.on];
@@ -155,6 +155,11 @@ function Visual({ id, answers, h }) {
     case 'twoPeople': return <TwoPeople />;
     case 'riskBars': return <RiskBars />;
     case 'hundred': return <Hundred />;
+    case 'noswitch': return <NoSwitch />;
+    case 'purpose': return <PurposeBars />;
+    case 'exits': return <Exits />;
+    case 'ageBars': return <AgeBars />;
+    case 'domains': return <Domains />;
     case 'sdohIntro': return <SdohWheel />;
     case 'sdohLive': return <SdohWheel answers={answers} live />;
     case 'pendulums': return <Pendulums />;
@@ -170,6 +175,7 @@ function Ask({ step, value, onAnswer }) {
   const answered = value !== undefined;
   return (
     <section className="ask">
+      {step.pre && step.pre.map((l, i) => <Line key={i} l={l} />)}
       {(step.sdoh || step.ring) && <span className="tag">{step.sdoh ? `Social determinant: ${step.sdoh}` : `Ring: ${step.ring}`}</span>}
       <Line l={step.q} />
       <div className="options" role="group">

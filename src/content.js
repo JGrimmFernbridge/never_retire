@@ -32,21 +32,18 @@ export const script = {
     ]},
     { type: 'say', lines: [
       { t: 'Wait…what?!', by: 'J', big: true, accent: true },
-    ]},
-    { type: 'say', lines: [
       { t: 'That was my daughter’s response — a very common phrase of hers. Two words that act as a pause in order to give time to catch up and process what was said. “Never retire” needs that pause.', by: 'J' },
       { t: 'You may have had something like it yourself. Never retire? That sounds less like financial advice and more like a threat.', by: 'J' },
       { t: 'I understand. It sounded that way to me for a while, too. Give me a few pages before you decide.', by: 'J' },
     ]},
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'This is not a book that tells you to work until you die. Rest is good. Rest is necessary. Questioning retirement is not the same as questioning rest. It’s questioning a model — one specific, historically contingent, 130-year-old model that was never designed for what we’re now asking it to do.', by: 'J' },
     ]},
     { type: 'visual', id: 'bubble' },
-    { type: 'say', lines: [
+    { type: 'ask', id: 'age', pre: [
       { t: 'So instead of a calculator, this is a conversation. About ten minutes. I’ll ask how you’re living and planning right now — the people in your life and the products in your plan — and then we’ll see what holds when life does what life does.', by: 'C' },
       { t: 'Nothing you answer is saved or sent anywhere. It stays on this screen.', by: 'C', small: true },
-    ]},
-    { type: 'ask', id: 'age', q: { t: 'First, where are you on the road?', by: 'C' }, options: [
+    ], q: { t: 'First, where are you on the road?', by: 'C' }, options: [
       { value: 'u35', label: 'Under 35' },
       { value: '35_49', label: '35 to 49' },
       { value: '50_64', label: '50 to 64' },
@@ -65,24 +62,22 @@ export const script = {
       { value: 'mixed', label: 'A mix of work and other sources' },
       { value: 'notwork', label: 'I’m no longer working for pay' },
     ]},
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'Good. Hold onto this idea while we walk:', by: 'C' },
       { t: 'There are three principles that seem to make a human life work. Economic stability, which I’ll call not poverty. Community. And generativity.', by: 'J' },
-      { t: 'These are not things you can turn on later in life. If they haven’t been part of your life in the run-up to 65, you’ll find them genuinely difficult to locate afterward. The switch you may be counting on flipping at 65 isn’t there. There’s no switch. There’s only what you’ve been building, or not building, the whole time.', by: 'J' },
+      { t: 'These are not things you can turn on later in life. If they haven’t been part of your life in the run-up to 65, you’ll find them genuinely difficult to locate afterward.', by: 'J' },
     ]},
+    { type: 'visual', id: 'noswitch' },
   ],
 
   // ── STATION 1: PEOPLE ──────────────────────────────────────────────────────
   people: [
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'If you want to know what produces economic stability, it turns out you shouldn’t ask a financial advisor. You should ask a public health researcher.', by: 'J' },
       { t: 'The Social Determinants of Health are the five things that predict how a human life goes: economic stability, access to and quality of health care, the built environment, access to and quality of education, and social and community context.', by: 'J' },
       { t: 'Notice what’s on that list, and notice what isn’t. Your asset allocation isn’t there. Neither is your expense ratio.', by: 'J' },
     ]},
     { type: 'visual', id: 'sdohIntro' },
-    { type: 'say', lines: [
-      { t: 'So let’s walk the five — not as a worksheet, but as how you’re actually living this week.', by: 'C' },
-    ]},
 
     // SDOH 1 — Social & community context
     { type: 'ask', id: 'p_people', sdoh: 'Social and community context',
@@ -102,13 +97,7 @@ export const script = {
         { t: 'That rhythm is doing more for your future than most accounts will. Regular rhythms of togetherness foster social and community context. More frequent and closer participation provides a more regular and closer proximity than seeing your favorite team or band on the occasional basis.', by: 'J' },
       ],
     }},
-    { type: 'say', lines: [
-      { t: 'The U.S. Surgeon General put numbers on what disconnection does to a body.', by: 'C', src: { label: 'U.S. Surgeon General, Our Epidemic of Loneliness and Isolation (2023)', url: 'https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf' } },
-    ]},
     { type: 'visual', id: 'riskBars' },
-    { type: 'say', lines: [
-      { t: 'Which is why, in our own practice, we ask about this before we ask about accounts.', by: 'J' },
-    ]},
 
     // Generativity (Jonathan's third principle, sitting inside community)
     { type: 'ask', id: 'p_generative', sdoh: 'Generativity',
@@ -127,9 +116,7 @@ export const script = {
         { t: 'Then you’ve already found the thing most plans leave out. Never Retire often means stopping the job. It never means stopping the contribution.', by: 'J' },
       ],
     }},
-    { type: 'say', lines: [
-      { t: 'Among nearly 7,000 Americans over 50, those with the weakest sense of purpose were about 2.4 times as likely to die over the study period as those with the strongest — after accounting for health, wealth and depression.', by: 'C', src: { label: 'Alimujiang et al., JAMA Network Open (2019)', url: 'https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2734064' } },
-    ]},
+    { type: 'visual', id: 'purpose' },
 
     // SDOH 2 — Economic stability
     { type: 'ask', id: 'p_econ', sdoh: 'Economic stability',
@@ -149,9 +136,7 @@ export const script = {
       ],
     }},
     { type: 'visual', id: 'hundred' },
-    { type: 'say', lines: [
-      { t: 'Conventional plans assume people stop working when they decide to. In reality many leave sooner than planned: a layoff, skills the market no longer wants, a health event, a family member who needs care. A plan that depends on a voluntary, on-time departure is planning for the exception.', by: 'J~' },
-    ]},
+    { type: 'visual', id: 'exits' },
 
     // SDOH 3 — Health care access
     { type: 'ask', id: 'p_care', sdoh: 'Health care access and quality',
@@ -206,26 +191,14 @@ export const script = {
       ],
     }},
 
-    { type: 'say', lines: [
-      { t: 'Here are the five again — yours this time. In most cases, each of these has been eroded or is obsolete in the current model we have for retirement.', by: 'J~' },
-    ]},
     { type: 'visual', id: 'sdohLive' },
-    { type: 'say', lines: [
-      { t: 'Why does the system produce isolation even when it works? Not the accounts — the direction. We live under an economic philosophy that has set wealth, the individual, and consumption as the direction of travel.', by: 'J~' },
-    ]},
     { type: 'visual', id: 'pendulums' },
-    { type: 'say', lines: [
-      { t: 'One more thing about the people side, because it’s where the stakes actually live.', by: 'C' },
-      { t: 'Depression is not a normal part of aging. Yet men 75 and older have the highest suicide rate of any group in the country — about 44 deaths per 100,000 in 2022, roughly double the rate for young men.', by: 'C', src: { label: 'CDC / NCHS Data Brief 509 (2024)', url: 'https://www.cdc.gov/nchs/products/databriefs/db509.htm' } },
-      { t: 'One British study that followed people into retirement found it raised the probability of clinical depression by about 40% over the medium and long term, with the effect growing the longer retirement lasted.', by: 'C', src: { label: 'Sahlgren, Work Longer, Live Healthier (IEA, 2013)', url: 'https://iea.org.uk/publications/research/work-longer-live-healthier-the-relationship-between-economic-activity-health-and-government-policy' } },
-      { t: 'The pattern I’m going to describe — economic instability, isolation, and the loss of a reason to be needed — is a pattern that shortens lives. That isn’t a metaphor about meaning.', by: 'J' },
-      { t: 'If any of this is landing heavily right now, you’re not alone, and it’s worth talking to someone. In the U.S. you can call or text 988 any time.', by: 'C', small: true },
-    ]},
+    { type: 'visual', id: 'ageBars' },
   ],
 
   // ── STATION 2: PRODUCTS ────────────────────────────────────────────────────
   products: [
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'Now the products. I’ll be brief, because I wrote a whole book about the math.', by: 'J~' },
       { t: 'There is no financial superstar. Every strength brings along its own weakness. You can’t paint a wall with a hammer — not because the hammer is bad, but because it’s the wrong tool for that particular job.', by: 'J' },
       { t: 'There are seven jobs money has to do across a life: Income, Capital, Tax-free, Guarantees, Medical, Growth, Legacy. Every financial tool does some of these and not others. And every tool that doesn’t fill a ring is telling you something by its absence.', by: 'J' },
@@ -290,7 +263,7 @@ export const script = {
         { t: 'A client comes in with $500,000 in a 401(k). The 4% rule says $20,000 a year. He tells me he needs three times that just to live paycheck to paycheck. It isn’t a problem with the safe withdrawal rate. It’s a problem where the outcome he needs and the strategies we have simply do not meet.', by: 'J' },
       ],
     }},
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'There is no financial superstar. Jason Giambi could hit — one of fifty-eight players in history with 400 home runs — and was, by most accounts, the worst defensive first baseman in baseball. The market is a marvel when it’s up. You would not want nine Giambis on the field playing defense.', by: 'J' },
     ]},
     { type: 'visual', id: 'moneyball' },
@@ -336,47 +309,37 @@ export const script = {
         { value: 1, label: 'Some' },
         { value: 2, label: 'A meaningful share' },
       ]},
-    { type: 'say', lines: [
-      { t: 'Because here’s the question the whole thing comes down to.', by: 'J' },
-    ]},
     { type: 'visual', id: 'split' },
-    { type: 'say', lines: [
-      { t: 'Here’s your circle, from what you’ve told me. Every empty ring is information, not a verdict.', by: 'C' },
-    ]},
     { type: 'visual', id: 'circleLive' },
   ],
 
   // ── STATION 3: SHOCKS ──────────────────────────────────────────────────────
   shocks: [
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'In January of 2025, our house was in the path of the Eaton Fire.', by: 'J' },
       { t: 'The thing that carried us was not an account balance. I can’t tell you the number of people who helped us this past year. And what it requires — what I hadn’t fully understood until I needed it — is that you have to have all of that in place beforehand in order to make it through. You can’t assemble it during the emergency. You either have it or you don’t.', by: 'J' },
       { t: 'Which is the argument of this entire book, delivered by fire rather than by chapter. I’d have preferred the chapter.', by: 'J' },
-    ]},
-    { type: 'say', lines: [
       { t: 'So let’s test the life you just described. In our planning software there are four shocks baked in — the four ways a plan actually gets hit. Press each one. You’ll see two ledgers: what your products absorb, and what your people absorb. Both are real money.', by: 'C' },
       { t: 'This is an illustration in today’s dollars, not a plan and not the real engine. The point is the shape, not the decimal.', by: 'C', small: true },
     ]},
     { type: 'shocks' },
-    { type: 'say', lines: [
-      { t: 'Retirement operates across at least seven domains: financial, moral, ethical, health, social, psychological, and economic. The current model examines two of them and declares victory. It’s a bit like a doctor who checks your cholesterol and blood pressure, ignores everything else, and pronounces you healthy because two numbers came back in range.', by: 'J' },
-    ]},
+    { type: 'visual', id: 'domains' },
   ],
 
   // ── STATION 4: A LIFE WORTH LIVING INTO ────────────────────────────────────
   life: [
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'You’ll notice the industry’s answer to all of this is a probability — a Monte Carlo simulation with a confidence interval. An 87% chance of success.', by: 'J' },
       { t: 'But notice what that number measures: the probability that a single-variable plan survives. It doesn’t measure whether you have a life worth surviving into.', by: 'J' },
       { t: 'What do I need money for is a far more important question than how much money do I need.', by: 'J', big: true },
     ]},
     { type: 'summary' },
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'Three principles. Not poverty. Community. Generativity. They aren’t three separate things. “Not poverty” without community is simply wealth accumulation. Community without generativity becomes obligation. Generativity without “not poverty” becomes exploitation. Take any one out and the other two curdle.', by: 'J' },
       { t: 'This doesn’t work especially well if you try to turn it on late in life. If you’re reading this at 58, that’s not a verdict. It just means the honest version of your plan involves building what you can, where you can, rather than pretending there’s a switch. In my experience, people who start late but start honestly do far better than people who start early and never look up.', by: 'J' },
     ]},
     { type: 'audit' },
-    { type: 'say', lines: [
+    { type: 'sayx', lines: [
       { t: 'So I hope you won’t wait until 65. There isn’t a switch waiting there. There’s only the life you’re building right now, and whether it’s the kind of life that can hold you when you need it to.', by: 'J' },
       { t: 'Never retire.', by: 'J', big: true },
       { t: 'Start now — wherever now happens to be.', by: 'J' },

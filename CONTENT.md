@@ -43,3 +43,14 @@ Deliberately simple, today's dollars, not Otto's engine:
 - **People score**: 0–100 from the six People answers; it changes the People-ledger narrative, never the dollars.
 
 Thresholds to tune are at the top of each `run()`.
+
+## Added visuals (second pass)
+| Visual | Source / origin |
+|---|---|
+| The switch at 65 / three lifelines | *Never Retire* Draft 2, ch. 2 and ch. 13 |
+| Purpose bars (1× vs 2.4×) | Alimujiang et al., JAMA Network Open (2019) |
+| 100 retirees, 46 left early; health/disability 41% | EBRI, 2026 Retirement Confidence Survey |
+| Suicide by age, men (21.6 / 29.5 / 43.9 per 100k) | CDC/NCHS Data Brief 509 (2022 data) |
+| 100 people, $400 surprise (37) / three months (30) | Federal Reserve SHED 2024 |
+| Five SDOH wheel | HHS Healthy People 2030; WHO CSDH |
+| 35 intersections grid | *Never Retire* Draft 2, ch. 3 |

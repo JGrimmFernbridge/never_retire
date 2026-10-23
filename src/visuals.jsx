@@ -296,3 +296,102 @@ export function Hundred() {
     </figure>
   );
 }
+
+// ── There is no switch at 65 ─────────────────────────────────────────────────
+export function NoSwitch() {
+  const [tries, setTries] = useState(0);
+  const [now, setNow] = useState(false);
+  const bars = ['Not poverty', 'Community', 'Generativity'];
+  return (
+    <figure className="viz noswitch">
+      <figcaption>The switch most plans are counting on.</figcaption>
+      <div className="switchrow">
+        <button className={'bigswitch' + (tries ? ' shake' : '')} key={tries} onClick={() => setTries((t) => t + 1)} aria-label="Flip the switch at 65">
+          <span className="knob" /><b>65</b>
+        </button>
+        <p className="vizline c">{tries === 0 ? 'Flip it.' : tries === 1 ? 'Nothing. Try again.' : 'There’s no switch. There’s only what you’ve been building, or not building, the whole time.'}</p>
+      </div>
+      <div className="lifeline">
+        <div className="ages"><span>20</span><span>35</span><span>50</span><span>65</span><span>80</span></div>
+        {bars.map((b) => (
+          <div className="lb" key={b}><span>{b}</span><div className="lbrail"><i style={{ width: now ? '100%' : '0%' }} /></div></div>
+        ))}
+      </div>
+      <button className="startnow" onClick={() => setNow((v) => !v)}>{now ? 'Reset' : 'Start building now instead'}</button>
+      {now && <p className="vizline j">Community, economic stability, and generativity are tasks for the whole life. They compound the way money does, which means starting matters considerably more than optimizing.</p>}
+    </figure>
+  );
+}
+
+// ── Purpose and mortality (JAMA Network Open, 2019) ──────────────────────────
+export function PurposeBars() {
+  const [go, setGo] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setGo(true), 120); return () => clearTimeout(t); }, []);
+  return (
+    <figure className="viz purpose">
+      <figcaption>Nearly 7,000 Americans over 50, followed for years. Risk of dying during the study:</figcaption>
+      <div className="team"><span>Strongest sense of purpose</span><div className="mbrail"><i className="as" style={{ width: go ? '41%' : 0 }} /></div><b>1×</b></div>
+      <div className="team"><span>Weakest sense of purpose</span><div className="mbrail"><i style={{ width: go ? '100%' : 0 }} /></div><b>2.4× — after accounting for health, wealth and depression</b></div>
+      <small className="vizsrc">Alimujiang et al., JAMA Network Open (2019), Health and Retirement Study.</small>
+    </figure>
+  );
+}
+
+// ── Most exits aren't chosen (EBRI RCS 2026) ─────────────────────────────────
+export function Exits() {
+  const [show, setShow] = useState(false);
+  const plan = 65;
+  return (
+    <figure className="viz exits">
+      <figcaption>When retirees planned to leave — and when they actually did.</figcaption>
+      <div className="grid100 exitsgrid" aria-label="46 of 100 retirees left earlier than planned">
+        {Array.from({ length: 100 }, (_, i) => <i key={i} className={show && i < 46 ? 'hit' : ''} style={{ transitionDelay: `${i * 8}ms` }} />)}
+      </div>
+      {!show ? <button className="startnow" onClick={() => setShow(true)}>Show what actually happened</button>
+        : <p className="bigstat"><b>46</b> of 100 retired earlier than planned. The most common reason: a health problem or disability (41%).</p>}
+      <small className="vizsrc">EBRI, 2026 Retirement Confidence Survey.</small>
+    </figure>
+  );
+}
+
+// ── Suicide rate by age, men (CDC/NCHS 2022) ─────────────────────────────────
+export function AgeBars() {
+  const [go, setGo] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setGo(true), 120); return () => clearTimeout(t); }, []);
+  const rows = [['Men 15–24', 21.6], ['Men 45–64', 29.5], ['Men 75 and older', 43.9]];
+  return (
+    <figure className="viz agebars">
+      <figcaption>Suicide deaths per 100,000, United States, 2022</figcaption>
+      {rows.map(([n, v]) => (
+        <div className="rb" key={n}><span>{n}</span><div className="rbrail"><i style={{ width: go ? `${(v / 44) * 100}%` : 0 }} /></div><b>{v}</b></div>
+      ))}
+      <p className="vizline c">Depression is not a normal part of aging — and the highest suicide rate in the country belongs to the men who have been retired the longest.</p>
+      <small className="vizsrc">CDC/NCHS Data Brief 509 (2024). If any of this is landing heavily, you can call or text 988 any time.</small>
+    </figure>
+  );
+}
+
+// ── Seven domains, five circles: 35 intersections, the industry checks two ──
+export function Domains() {
+  const [all, setAll] = useState(false);
+  const domains = ['Financial', 'Economic', 'Health', 'Psychological', 'Social', 'Ethical', 'Moral'];
+  const circles = ['You', 'Spouse', 'Family', 'Community', 'Society'];
+  const checked = (d, c) => d === 0 && c === 0 || d === 1 && c === 0;
+  return (
+    <figure className="viz domains">
+      <figcaption>Retirement touches seven domains across five circles of people. Thirty-five intersections.</figcaption>
+      <div className="dgrid" style={{ gridTemplateColumns: `auto repeat(${circles.length}, minmax(0, 1fr))` }}>
+        <span />
+        {circles.map((c) => <span className="dh" key={c}>{c}</span>)}
+        {domains.map((d, i) => (
+          <>
+            <span className="dr" key={d}>{d}</span>
+            {circles.map((c, j) => <i key={d + c} className={(checked(i, j) ? 'ind' : '') + (all ? ' all' : '')} />)}
+          </>
+        ))}
+      </div>
+      <button className="startnow" onClick={() => setAll((v) => !v)}>{all ? 'Show what the industry measures' : 'Show what has to work'}</button>
+      <p className="vizline j">{all ? 'All thirty-five have to work for this to be a good idea.' : 'The current model examines two of them and declares victory.'}</p>
+    </figure>
+  );
+}
